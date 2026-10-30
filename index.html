@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -15,11 +15,11 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: "Segoe UI", Helvetica, Arial, sans-serif;
         }
 
         body {
-            background-color: #f0f2f5;
+            background-color: #dadbd4;
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -28,23 +28,24 @@
 
         .app-container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1395px;
             height: 95vh;
-            background: #ffffff;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-            border-radius: 16px;
+            background: #f0f2f5;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+            border-radius: 8px;
             display: flex;
             overflow: hidden;
             position: relative;
         }
 
+        /* Auth Overlay */
         .auth-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #ffffff;
+            background: #f0f2f5;
             z-index: 100;
             display: flex;
             flex-direction: column;
@@ -55,15 +56,19 @@
 
         .auth-box {
             width: 100%;
-            max-width: 380px;
+            max-width: 400px;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             text-align: center;
         }
 
         .auth-box h1 {
-            color: #128c7e;
-            font-size: 28px;
-            margin-bottom: 8px;
-            font-weight: 700;
+            color: #00a884;
+            font-size: 26px;
+            margin-bottom: 6px;
+            font-weight: 600;
         }
 
         .auth-box p {
@@ -80,19 +85,19 @@
         .form-group label {
             display: block;
             font-size: 12px;
-            color: #54656f;
+            color: #00a884;
             margin-bottom: 6px;
             font-weight: 600;
         }
 
         .form-group input {
             width: 100%;
-            padding: 12px 16px;
+            padding: 12px 14px;
             border: 1px solid #e9edef;
             border-radius: 8px;
             outline: none;
             font-size: 14px;
-            background: #f8f9fa;
+            background: #f5f6f6;
         }
 
         .form-group input:focus {
@@ -111,22 +116,24 @@
             font-weight: 600;
             cursor: pointer;
             transition: background 0.2s;
+            margin-top: 10px;
         }
 
         .btn-primary:hover {
             background: #008f6f;
         }
 
+        /* Sidebar */
         .sidebar {
-            width: 350px;
-            border-right: 1px solid #e9edef;
+            width: 380px;
+            border-right: 1px solid #d1d7db;
             display: flex;
             flex-direction: column;
             background: #ffffff;
         }
 
         .sidebar-header {
-            padding: 16px;
+            padding: 10px 16px;
             background: #f0f2f5;
             display: flex;
             justify-content: space-between;
@@ -137,7 +144,7 @@
         .user-profile {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .avatar {
@@ -150,29 +157,32 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            font-size: 16px;
         }
 
         .user-info .name {
             font-weight: 600;
-            font-size: 14px;
+            font-size: 15px;
             color: #111b21;
         }
 
         .user-info .username {
-            font-size: 12px;
+            font-size: 13px;
             color: #667781;
         }
 
         .header-actions {
             display: flex;
-            gap: 16px;
+            gap: 20px;
             color: #54656f;
             cursor: pointer;
+            font-size: 18px;
         }
 
         .search-box {
-            padding: 10px 16px;
-            border-bottom: 1px solid #e9edef;
+            padding: 8px 12px;
+            background: #ffffff;
+            border-bottom: 1px solid #f0f2f5;
         }
 
         .search-input-wrapper {
@@ -200,15 +210,17 @@
         .chat-list {
             flex: 1;
             overflow-y: auto;
+            background: #ffffff;
         }
 
         .chat-item {
             display: flex;
             align-items: center;
             padding: 12px 16px;
-            gap: 12px;
+            gap: 15px;
             cursor: pointer;
-            border-bottom: 1px solid #f8f9fa;
+            border-bottom: 1px solid #f0f2f5;
+            transition: background 0.1s;
         }
 
         .chat-item:hover, .chat-item.active {
@@ -222,12 +234,12 @@
         .chat-title {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .chat-name {
             font-weight: 600;
-            font-size: 15px;
+            font-size: 16px;
             color: #111b21;
         }
 
@@ -236,11 +248,13 @@
             color: #667781;
         }
 
+        /* Chat Panel */
         .chat-panel {
             flex: 1;
             display: flex;
             flex-direction: column;
-            background: #ffffff;
+            background: #efeae2;
+            position: relative;
         }
 
         .chat-header {
@@ -248,8 +262,8 @@
             background: #f0f2f5;
             display: flex;
             align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid #e9edef;
+            gap: 15px;
+            border-bottom: 1px solid #d1d7db;
         }
 
         .messages-container {
@@ -258,30 +272,40 @@
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            background: #ffffff;
+            gap: 6px;
         }
 
         .message {
-            max-width: 60%;
+            max-width: 65%;
             padding: 8px 12px;
             border-radius: 8px;
             font-size: 14px;
             line-height: 1.4;
             position: relative;
             word-wrap: break-word;
+            box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
         }
 
         .message.sent {
             align-self: flex-end;
             background: #d9fdd3;
             color: #111b21;
+            border-top-right-radius: 0;
         }
 
         .message.received {
             align-self: flex-start;
-            background: #f0f2f5;
+            background: #ffffff;
             color: #111b21;
+            border-top-left-radius: 0;
+        }
+
+        .msg-time {
+            font-size: 10px;
+            color: #667781;
+            float: right;
+            margin-left: 8px;
+            margin-top: 4px;
         }
 
         .chat-input-area {
@@ -290,30 +314,39 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            border-top: 1px solid #d1d7db;
         }
 
         .chat-input-area input {
             flex: 1;
-            padding: 10px 16px;
+            padding: 12px 16px;
             border: none;
             border-radius: 8px;
             outline: none;
             font-size: 14px;
+            background: #ffffff;
         }
 
         .send-btn {
             background: #00a884;
             color: white;
             border: none;
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 16px;
+            transition: background 0.2s;
         }
 
+        .send-btn:hover {
+            background: #008f6f;
+        }
+
+        /* Credits Modal */
         .credits-modal {
             display: none;
             position: absolute;
@@ -321,7 +354,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.5);
             z-index: 200;
             justify-content: center;
             align-items: center;
@@ -329,22 +362,23 @@
 
         .credits-content {
             background: white;
-            width: 320px;
+            width: 340px;
             padding: 24px;
             border-radius: 12px;
             text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
         }
 
         .credits-content h2 {
-            font-size: 20px;
-            color: #128c7e;
-            margin-bottom: 12px;
+            font-size: 22px;
+            color: #00a884;
+            margin-bottom: 8px;
         }
 
         .dev-tag {
             background: #e7fce8;
             color: #00a884;
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
             font-weight: 600;
             display: inline-block;
@@ -362,19 +396,26 @@
         }
 
         .tq-list li {
-            padding: 4px 0;
-            color: #54656f;
+            padding: 6px 8px;
+            color: #3b4a54;
             font-size: 14px;
+            border-bottom: 1px solid #e9edef;
+        }
+
+        .tq-list li:last-child {
+            border-bottom: none;
         }
 
         .close-btn {
-            margin-top: 12px;
-            background: #e9edef;
-            color: #111b21;
+            margin-top: 14px;
+            background: #00a884;
+            color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 10px 20px;
             border-radius: 6px;
             cursor: pointer;
+            font-weight: 600;
+            width: 100%;
         }
 
         .empty-state {
@@ -383,7 +424,8 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #8696a0;
+            color: #667781;
+            background: #f8f9fa;
         }
 
         .error-msg {
@@ -401,7 +443,7 @@
         <div class="auth-overlay" id="authView">
             <div class="auth-box">
                 <h1>OMOX WHATSAPP</h1>
-                <p>Masuk tanpa nomor HP</p>
+                <p>Chat aman tanpa nomor HP</p>
                 
                 <div class="form-group">
                     <label>USERNAME (Wajib diawali @)</label>
@@ -414,7 +456,12 @@
                     <input type="text" id="regEmail" placeholder="bebas@mail.com">
                 </div>
 
-                <button class="btn-primary" onclick="handleRegister()">Masuk Aplikasi</button>
+                <div class="form-group">
+                    <label>PIN KEAMANAN (1 Akun 1 HP)</label>
+                    <input type="password" id="regPin" placeholder="Masukkan PIN rahasia akun">
+                </div>
+
+                <button class="btn-primary" onclick="handleRegister()">Masuk / Daftar</button>
             </div>
         </div>
 
@@ -429,28 +476,26 @@
                     </div>
                 </div>
                 <div class="header-actions">
-                    <i class="fa-solid fa-circle-info" onclick="toggleCredits(true)" title="Info Developer"></i>
+                    <i class="fa-solid fa-circle-info" onclick="toggleCredits(true)" title="Info Developer & TQ To"></i>
                 </div>
             </div>
 
             <div class="search-box">
                 <div class="search-input-wrapper">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="searchInput" placeholder="Cari akun (@nama)..." onkeyup="searchUser()">
+                    <input type="text" id="searchInput" placeholder="Cari akun terdaftar (@nama)..." onkeyup="searchUser()">
                 </div>
             </div>
 
-            <div class="chat-list" id="chatList">
-                <!-- User list dirender dinamis dari Firebase -->
-            </div>
+            <div class="chat-list" id="chatList"></div>
         </div>
 
         <!-- Chat Panel -->
         <div class="chat-panel">
             <div class="empty-state" id="emptyState">
-                <i class="fa-solid fa-comments" style="font-size: 64px; margin-bottom: 16px;"></i>
-                <h3>OMOX WHATSAPP</h3>
-                <p>Pilih atau cari kontak dengan @username untuk mulai chat.</p>
+                <i class="fa-brands fa-whatsapp" style="font-size: 72px; color: #00a884; margin-bottom: 16px;"></i>
+                <h3 style="color: #41525d; font-weight: 500; font-size: 24px;">OMOX WHATSAPP WEB</h3>
+                <p style="margin-top: 8px; font-size: 14px;">Cari kontak menggunakan awalan <b>@</b> di kolom pencarian sebelah kiri untuk mulai mengobrol.</p>
             </div>
 
             <div id="activeChatView" style="display: none; height: 100%; flex-direction: column;">
@@ -466,7 +511,7 @@
 
                 <div class="chat-input-area">
                     <input type="text" id="msgInput" placeholder="Ketik pesan..." onkeypress="handleKeyPress(event)">
-                    <button class="send-btn" onclick="sendMessage()">
+                    <button class="send-btn" onclick="sendMessage()" title="Kirim Pesan">
                         <i class="fa-solid fa-paper-plane"></i>
                     </button>
                 </div>
@@ -479,12 +524,12 @@
                 <h2>OMOX WHATSAPP</h2>
                 <div class="dev-tag">DEVELOPER: FENGXIU</div>
                 
-                <p style="font-size: 13px; font-weight: bold; color: #54656f; margin-top: 8px;">TQ TO (Special Thanks):</p>
+                <p style="font-size: 13px; font-weight: bold; color: #54656f; margin-top: 4px;">TQ TO (Special Thanks):</p>
                 <ul class="tq-list">
-                    <li><i class="fa-solid fa-user-check"></i> Sapik</li>
-                    <li><i class="fa-solid fa-user-check"></i> Ditya</li>
-                    <li><i class="fa-solid fa-user-check"></i> Rio</li>
-                    <li><i class="fa-solid fa-user-check"></i> Topik</li>
+                    <li><i class="fa-solid fa-user-check" style="color: #00a884; margin-right: 6px;"></i> Sapik</li>
+                    <li><i class="fa-solid fa-user-check" style="color: #00a884; margin-right: 6px;"></i> Ditya</li>
+                    <li><i class="fa-solid fa-user-check" style="color: #00a884; margin-right: 6px;"></i> Rio</li>
+                    <li><i class="fa-solid fa-user-check" style="color: #00a884; margin-right: 6px;"></i> Topik</li>
                 </ul>
 
                 <button class="close-btn" onclick="toggleCredits(false)">Tutup</button>
@@ -493,7 +538,6 @@
     </div>
 
     <script>
-        // Konfigurasi Firebase dari akun kamu
         const firebaseConfig = {
             apiKey: "AIzaSyCCO6UAjxCAJBKBti1zZpUiBDIp3oV81bM",
             authDomain: "omox-wa.firebaseapp.com",
@@ -502,20 +546,29 @@
             messagingSenderId: "505720566834",
             appId: "1:505720566834:web:132250eae8b3dba25d382b",
             measurementId: "G-6QXWZTGL9Z",
-            databaseURL: "https://omox-wa-default-rtdb.firebaseio.com"
+            databaseURL: "https://omox-wa-default-rtdb.asia-southeast1.firebasedatabase.app"
         };
 
-        // Inisialisasi Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
         let currentUser = null;
         let activeChatTarget = null;
-        let allUsers = [];
+        let allRegisteredUsers = [];
+
+        // Cek sesi otomatis tersimpan di perangkat (tidak perlu login ulang saat refresh)
+        window.onload = function() {
+            const savedUser = localStorage.getItem("omox_current_user");
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                initAppSession();
+            }
+        };
 
         function handleRegister() {
             const usernameInput = document.getElementById("regUsername").value.trim().toLowerCase();
             const emailInput = document.getElementById("regEmail").value.trim();
+            const pinInput = document.getElementById("regPin").value.trim();
             const errElem = document.getElementById("usernameErr");
 
             if (!usernameInput.startsWith("@") || usernameInput.length < 2) {
@@ -523,44 +576,64 @@
                 return;
             }
 
+            if (!pinInput) {
+                alert("Harap masukkan PIN keamanan akun Anda!");
+                return;
+            }
+
             errElem.style.display = "none";
-            
-            // Format Key aman untuk Firebase Realtime Database
             const userKey = usernameInput.replace("@", "");
 
-            currentUser = {
-                username: usernameInput,
-                email: emailInput || "user@omox.local",
-                name: userKey.charAt(0).toUpperCase() + userKey.slice(1)
-            };
+            db.ref("users/" + userKey).once("value", (snapshot) => {
+                const existingData = snapshot.val();
 
-            // Simpan akun ke database pengguna Firebase
-            db.ref("users/" + userKey).set(currentUser);
+                if (existingData) {
+                    if (existingData.pin !== pinInput) {
+                        alert("Username ini sudah terdaftar di perangkat lain! Masukkan PIN yang benar untuk masuk.");
+                        return;
+                    } else {
+                        currentUser = existingData;
+                        saveAndStartSession();
+                    }
+                } else {
+                    currentUser = {
+                        username: usernameInput,
+                        email: emailInput || "user@omox.local",
+                        name: userKey.charAt(0).toUpperCase() + userKey.slice(1),
+                        pin: pinInput
+                    };
+                    db.ref("users/" + userKey).set(currentUser);
+                    saveAndStartSession();
+                }
+            });
+        }
 
-            // Update UI Profil
+        function saveAndStartSession() {
+            localStorage.setItem("omox_current_user", JSON.stringify(currentUser));
+            initAppSession();
+        }
+
+        function initAppSession() {
             document.getElementById("myName").innerText = currentUser.name;
             document.getElementById("myUsername").innerText = currentUser.username;
             document.getElementById("myAvatar").innerText = currentUser.name.charAt(0).toUpperCase();
 
-            // Sembunyikan Form Login
             document.getElementById("authView").style.display = "none";
-
-            // Listen daftar semua pengguna yang terdaftar di Firebase
             loadUsersFromFirebase();
         }
 
         function loadUsersFromFirebase() {
             db.ref("users").on("value", (snapshot) => {
                 const data = snapshot.val();
-                allUsers = [];
+                allRegisteredUsers = [];
                 if (data) {
                     Object.values(data).forEach(u => {
-                        if (u.username !== currentUser.username) {
-                            allUsers.push(u);
+                        if (currentUser && u.username !== currentUser.username) {
+                            allRegisteredUsers.push(u);
                         }
                     });
                 }
-                renderChatList(allUsers);
+                renderChatList(allRegisteredUsers);
             });
         }
 
@@ -568,9 +641,17 @@
             const container = document.getElementById("chatList");
             container.innerHTML = "";
 
+            if (list.length === 0) {
+                container.innerHTML = `<div style="padding: 20px; text-align: center; color: #667781; font-size: 13px;">Belum ada kontak lain. Cari menggunakan format <b>@nama</b></div>`;
+                return;
+            }
+
             list.forEach(u => {
                 const item = document.createElement("div");
                 item.className = "chat-item";
+                if (activeChatTarget && activeChatTarget.username === u.username) {
+                    item.classList.add("active");
+                }
                 item.onclick = () => selectChat(u);
 
                 item.innerHTML = `
@@ -587,8 +668,13 @@
         }
 
         function searchUser() {
-            const query = document.getElementById("searchInput").value.toLowerCase();
-            const filtered = allUsers.filter(u => 
+            const query = document.getElementById("searchInput").value.toLowerCase().trim();
+            if (!query) {
+                renderChatList(allRegisteredUsers);
+                return;
+            }
+
+            const filtered = allRegisteredUsers.filter(u => 
                 u.username.toLowerCase().includes(query) || 
                 u.name.toLowerCase().includes(query)
             );
@@ -606,6 +692,8 @@
             document.getElementById("activeUsername").innerText = targetUser.username;
             document.getElementById("activeAvatar").innerText = targetUser.name.charAt(0).toUpperCase();
 
+            // Tandai item aktif di sidebar
+            renderChatList(allRegisteredUsers);
             listenForMessages();
         }
 
@@ -614,15 +702,16 @@
             const text = input.value.trim();
             if (!text || !activeChatTarget) return;
 
-            // Buat Room ID Unik gabungan 2 username
             const u1 = currentUser.username.replace("@", "");
             const u2 = activeChatTarget.username.replace("@", "");
             const roomId = [u1, u2].sort().join("_");
 
-            // Kirim pesan langsung ke database online
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
             db.ref("chats/" + roomId).push({
                 sender: currentUser.username,
                 text: text,
+                time: timeStr,
                 timestamp: Date.now()
             });
 
@@ -636,7 +725,6 @@
             const u2 = activeChatTarget.username.replace("@", "");
             const roomId = [u1, u2].sort().join("_");
 
-            // Mendengarkan data pesan real-time dari Firebase
             db.ref("chats/" + roomId).on("value", (snapshot) => {
                 const container = document.getElementById("messagesContainer");
                 container.innerHTML = "";
@@ -646,7 +734,7 @@
                     Object.values(data).forEach(m => {
                         const msgDiv = document.createElement("div");
                         msgDiv.className = `message ${m.sender === currentUser.username ? "sent" : "received"}`;
-                        msgDiv.innerText = m.text;
+                        msgDiv.innerHTML = `${m.text} <span class="msg-time">${m.time || ''}</span>`;
                         container.appendChild(msgDiv);
                     });
                     container.scrollTop = container.scrollHeight;
