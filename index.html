@@ -1,0 +1,666 @@
+ <!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMOX WHATSAPP</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Firebase SDK Compat -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1200px;
+            height: 95vh;
+            background: #ffffff;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border-radius: 16px;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .auth-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .auth-box {
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+        }
+
+        .auth-box h1 {
+            color: #128c7e;
+            font-size: 28px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .auth-box p {
+            color: #667781;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: #54656f;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e9edef;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+            background: #f8f9fa;
+        }
+
+        .form-group input:focus {
+            border-color: #00a884;
+            background: #ffffff;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: #00a884;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: #008f6f;
+        }
+
+        .sidebar {
+            width: 350px;
+            border-right: 1px solid #e9edef;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+        }
+
+        .sidebar-header {
+            padding: 16px;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e9edef;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #00a884;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .user-info .name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #111b21;
+        }
+
+        .user-info .username {
+            font-size: 12px;
+            color: #667781;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 16px;
+            color: #54656f;
+            cursor: pointer;
+        }
+
+        .search-box {
+            padding: 10px 16px;
+            border-bottom: 1px solid #e9edef;
+        }
+
+        .search-input-wrapper {
+            background: #f0f2f5;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+        }
+
+        .search-input-wrapper i {
+            color: #54656f;
+            font-size: 14px;
+        }
+
+        .search-input-wrapper input {
+            width: 100%;
+            padding: 8px 12px;
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .chat-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .chat-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            gap: 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .chat-item:hover, .chat-item.active {
+            background: #f0f2f5;
+        }
+
+        .chat-details {
+            flex: 1;
+        }
+
+        .chat-title {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .chat-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: #111b21;
+        }
+
+        .last-msg {
+            font-size: 13px;
+            color: #667781;
+        }
+
+        .chat-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+        }
+
+        .chat-header {
+            padding: 10px 16px;
+            background: #f0f2f5;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #e9edef;
+        }
+
+        .messages-container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background: #ffffff;
+        }
+
+        .message {
+            max-width: 60%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.4;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .message.sent {
+            align-self: flex-end;
+            background: #d9fdd3;
+            color: #111b21;
+        }
+
+        .message.received {
+            align-self: flex-start;
+            background: #f0f2f5;
+            color: #111b21;
+        }
+
+        .chat-input-area {
+            padding: 10px 16px;
+            background: #f0f2f5;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .send-btn {
+            background: #00a884;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .credits-modal {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .credits-content {
+            background: white;
+            width: 320px;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .credits-content h2 {
+            font-size: 20px;
+            color: #128c7e;
+            margin-bottom: 12px;
+        }
+
+        .dev-tag {
+            background: #e7fce8;
+            color: #00a884;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 16px;
+            font-size: 13px;
+        }
+
+        .tq-list {
+            list-style: none;
+            margin: 12px 0;
+            text-align: left;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .tq-list li {
+            padding: 4px 0;
+            color: #54656f;
+            font-size: 14px;
+        }
+
+        .close-btn {
+            margin-top: 12px;
+            background: #e9edef;
+            color: #111b21;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .empty-state {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #8696a0;
+        }
+
+        .error-msg {
+            color: #ea4335;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Register/Login View -->
+        <div class="auth-overlay" id="authView">
+            <div class="auth-box">
+                <h1>OMOX WHATSAPP</h1>
+                <p>Masuk tanpa nomor HP</p>
+                
+                <div class="form-group">
+                    <label>USERNAME (Wajib diawali @)</label>
+                    <input type="text" id="regUsername" placeholder="Contoh: @ahmad">
+                    <div class="error-msg" id="usernameErr">Username harus diawali karakter @</div>
+                </div>
+
+                <div class="form-group">
+                    <label>EMAIL (Bebas / Dummy)</label>
+                    <input type="text" id="regEmail" placeholder="bebas@mail.com">
+                </div>
+
+                <button class="btn-primary" onclick="handleRegister()">Masuk Aplikasi</button>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-profile">
+                    <div class="avatar" id="myAvatar">U</div>
+                    <div class="user-info">
+                        <div class="name" id="myName">User Name</div>
+                        <div class="username" id="myUsername">@username</div>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <i class="fa-solid fa-circle-info" onclick="toggleCredits(true)" title="Info Developer"></i>
+                </div>
+            </div>
+
+            <div class="search-box">
+                <div class="search-input-wrapper">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Cari akun (@nama)..." onkeyup="searchUser()">
+                </div>
+            </div>
+
+            <div class="chat-list" id="chatList">
+                <!-- User list dirender dinamis dari Firebase -->
+            </div>
+        </div>
+
+        <!-- Chat Panel -->
+        <div class="chat-panel">
+            <div class="empty-state" id="emptyState">
+                <i class="fa-solid fa-comments" style="font-size: 64px; margin-bottom: 16px;"></i>
+                <h3>OMOX WHATSAPP</h3>
+                <p>Pilih atau cari kontak dengan @username untuk mulai chat.</p>
+            </div>
+
+            <div id="activeChatView" style="display: none; height: 100%; flex-direction: column;">
+                <div class="chat-header">
+                    <div class="avatar" id="activeAvatar">A</div>
+                    <div>
+                        <div class="chat-name" id="activeName">Ahmad</div>
+                        <div style="font-size: 12px; color: #667781;" id="activeUsername">@ahmad</div>
+                    </div>
+                </div>
+
+                <div class="messages-container" id="messagesContainer"></div>
+
+                <div class="chat-input-area">
+                    <input type="text" id="msgInput" placeholder="Ketik pesan..." onkeypress="handleKeyPress(event)">
+                    <button class="send-btn" onclick="sendMessage()">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Credits Modal -->
+        <div class="credits-modal" id="creditsModal">
+            <div class="credits-content">
+                <h2>OMOX WHATSAPP</h2>
+                <div class="dev-tag">DEVELOPER: FENGXIU</div>
+                
+                <p style="font-size: 13px; font-weight: bold; color: #54656f; margin-top: 8px;">TQ TO (Special Thanks):</p>
+                <ul class="tq-list">
+                    <li><i class="fa-solid fa-user-check"></i> Sapik</li>
+                    <li><i class="fa-solid fa-user-check"></i> Ditya</li>
+                    <li><i class="fa-solid fa-user-check"></i> Rio</li>
+                    <li><i class="fa-solid fa-user-check"></i> Topik</li>
+                </ul>
+
+                <button class="close-btn" onclick="toggleCredits(false)">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Konfigurasi Firebase dari akun kamu
+        const firebaseConfig = {
+            apiKey: "AIzaSyCCO6UAjxCAJBKBti1zZpUiBDIp3oV81bM",
+            authDomain: "omox-wa.firebaseapp.com",
+            projectId: "omox-wa",
+            storageBucket: "omox-wa.firebasestorage.app",
+            messagingSenderId: "505720566834",
+            appId: "1:505720566834:web:132250eae8b3dba25d382b",
+            measurementId: "G-6QXWZTGL9Z",
+            databaseURL: "https://omox-wa-default-rtdb.firebaseio.com"
+        };
+
+        // Inisialisasi Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let currentUser = null;
+        let activeChatTarget = null;
+        let allUsers = [];
+
+        function handleRegister() {
+            const usernameInput = document.getElementById("regUsername").value.trim().toLowerCase();
+            const emailInput = document.getElementById("regEmail").value.trim();
+            const errElem = document.getElementById("usernameErr");
+
+            if (!usernameInput.startsWith("@") || usernameInput.length < 2) {
+                errElem.style.display = "block";
+                return;
+            }
+
+            errElem.style.display = "none";
+            
+            // Format Key aman untuk Firebase Realtime Database
+            const userKey = usernameInput.replace("@", "");
+
+            currentUser = {
+                username: usernameInput,
+                email: emailInput || "user@omox.local",
+                name: userKey.charAt(0).toUpperCase() + userKey.slice(1)
+            };
+
+            // Simpan akun ke database pengguna Firebase
+            db.ref("users/" + userKey).set(currentUser);
+
+            // Update UI Profil
+            document.getElementById("myName").innerText = currentUser.name;
+            document.getElementById("myUsername").innerText = currentUser.username;
+            document.getElementById("myAvatar").innerText = currentUser.name.charAt(0).toUpperCase();
+
+            // Sembunyikan Form Login
+            document.getElementById("authView").style.display = "none";
+
+            // Listen daftar semua pengguna yang terdaftar di Firebase
+            loadUsersFromFirebase();
+        }
+
+        function loadUsersFromFirebase() {
+            db.ref("users").on("value", (snapshot) => {
+                const data = snapshot.val();
+                allUsers = [];
+                if (data) {
+                    Object.values(data).forEach(u => {
+                        if (u.username !== currentUser.username) {
+                            allUsers.push(u);
+                        }
+                    });
+                }
+                renderChatList(allUsers);
+            });
+        }
+
+        function renderChatList(list) {
+            const container = document.getElementById("chatList");
+            container.innerHTML = "";
+
+            list.forEach(u => {
+                const item = document.createElement("div");
+                item.className = "chat-item";
+                item.onclick = () => selectChat(u);
+
+                item.innerHTML = `
+                    <div class="avatar">${u.name.charAt(0).toUpperCase()}</div>
+                    <div class="chat-details">
+                        <div class="chat-title">
+                            <span class="chat-name">${u.name}</span>
+                        </div>
+                        <div class="last-msg">${u.username}</div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function searchUser() {
+            const query = document.getElementById("searchInput").value.toLowerCase();
+            const filtered = allUsers.filter(u => 
+                u.username.toLowerCase().includes(query) || 
+                u.name.toLowerCase().includes(query)
+            );
+            renderChatList(filtered);
+        }
+
+        function selectChat(targetUser) {
+            activeChatTarget = targetUser;
+            document.getElementById("emptyState").style.display = "none";
+            
+            const activeView = document.getElementById("activeChatView");
+            activeView.style.display = "flex";
+
+            document.getElementById("activeName").innerText = targetUser.name;
+            document.getElementById("activeUsername").innerText = targetUser.username;
+            document.getElementById("activeAvatar").innerText = targetUser.name.charAt(0).toUpperCase();
+
+            listenForMessages();
+        }
+
+        function sendMessage() {
+            const input = document.getElementById("msgInput");
+            const text = input.value.trim();
+            if (!text || !activeChatTarget) return;
+
+            // Buat Room ID Unik gabungan 2 username
+            const u1 = currentUser.username.replace("@", "");
+            const u2 = activeChatTarget.username.replace("@", "");
+            const roomId = [u1, u2].sort().join("_");
+
+            // Kirim pesan langsung ke database online
+            db.ref("chats/" + roomId).push({
+                sender: currentUser.username,
+                text: text,
+                timestamp: Date.now()
+            });
+
+            input.value = "";
+        }
+
+        function listenForMessages() {
+            if (!activeChatTarget) return;
+
+            const u1 = currentUser.username.replace("@", "");
+            const u2 = activeChatTarget.username.replace("@", "");
+            const roomId = [u1, u2].sort().join("_");
+
+            // Mendengarkan data pesan real-time dari Firebase
+            db.ref("chats/" + roomId).on("value", (snapshot) => {
+                const container = document.getElementById("messagesContainer");
+                container.innerHTML = "";
+
+                const data = snapshot.val();
+                if (data) {
+                    Object.values(data).forEach(m => {
+                        const msgDiv = document.createElement("div");
+                        msgDiv.className = `message ${m.sender === currentUser.username ? "sent" : "received"}`;
+                        msgDiv.innerText = m.text;
+                        container.appendChild(msgDiv);
+                    });
+                    container.scrollTop = container.scrollHeight;
+                }
+            });
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === "Enter") sendMessage();
+        }
+
+        function toggleCredits(show) {
+            document.getElementById("creditsModal").style.display = show ? "flex" : "none";
+        }
+    </script>
+</body>
+</html>
